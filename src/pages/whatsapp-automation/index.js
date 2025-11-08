@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react"
-import styles from "./styles.module.scss"
+
 import { Table } from "antd"
+import { IoCopy } from "react-icons/io5";
+
+import styles from "./styles.module.scss"
 
 const AutomationMain = () => {
     const [fileLink, setFileLink] = useState("")
@@ -16,7 +19,7 @@ const AutomationMain = () => {
     const onChangeSheet = ({ sheet }) => {
         setSheetName(sheet)
     }
-
+    
     const onSubmit = () => {
         if (!fileLink) return;
 
@@ -83,8 +86,6 @@ const AutomationMain = () => {
         }
     };
 
-
-
     const tableColumns = [
         {
             title: 'Rider Name',
@@ -105,6 +106,14 @@ const AutomationMain = () => {
             title: 'Message',
             dataIndex: 'message',
             key: 'message',
+            render: (_, record) => (
+                <div className={styles["message-wrapper"]}>
+                    <div
+                        dangerouslySetInnerHTML={{__html: record?.message.replace(/\n/g, "<br/>")}}
+                    />
+                    <IoCopy className={styles["copy-icon"]} onClick={() => navigator.clipboard.writeText(record?.message)} />
+                </div>
+            ),
         },
         {
             title: "Action",
@@ -123,44 +132,22 @@ const AutomationMain = () => {
 
     useEffect(() => {
         if (rawData?.length > 0) {
-            const filteredData = rawData?.filter(rider => Number(rider["Total Pending Amount"]) > 20)
+            const filteredData = rawData?.filter(rider => Number(rider["Total Pending Amount"]) > 30)
 
             const structuredData = filteredData?.map(rider => ({
                 ...rider,
                 key: rider["'Rider Name'"],
-                message: `Hi ${rider["Driver Name"]},\n` +
-                    `You currently have October pending sales cash of *${rider["Total Pending Amount"]}* KWD.\n` +
-                    `Please make the deposit today by *4 PM* to save penalties of 30KD.\n\n` +
-                    `Kindly ignore if you have already deposited.\n\n` +
+                message: `Final Reminder!!!\n\n` +
+                `Hi ${rider["Driver Name"]},\n` +
+                    // `You currently have October pending sales cash of *${rider["Total Pending Amount"]}* KWD.\n` +
+                    `Please make the deposit *${rider["Total Pending Amount"]}* KD today by *3 PM* to save penalties of 30KD.\n\n` +
+                    // `Kindly ignore if you have already deposited.\n\n` +
                     ` — *Team Bobyan*`
             }))
 
             setFinalData(structuredData || [])
-            // console.log(structuredData);
         }
     }, [rawData])
-
-    // useEffect(() => {
-
-    //     const url = "https://courier.mykeeta.com/api/partner/padmin/r/get3plAuditPageByParam?yodaReady=h5&csecplatform=4&csecversion=3.4.0";
-
-    //     fetch(url, {
-    //         method: "POST",
-    //         headers: {
-    //             "Content-Type": "application/json"
-    //         },
-    //         body: JSON.stringify({
-    //             pageNum: 2,
-    //             pageSize: 100,
-    //             orgId: 20000791,
-    //             orgType: 84
-    //         })
-    //     })
-    //         .then(response => response.json())
-    //         .then(data => console.log(data))
-    //         .catch(error => console.error(error));
-
-    // }, [])
 
     return (
         <div className={styles["page-main"]}>
@@ -170,13 +157,13 @@ const AutomationMain = () => {
                     <div className={styles["file-upload-label"]}>Enter File Details</div>
                     <div className={styles["inputs-wrapper"]}>
                         <input className={styles["sheet-input"]} placeholder="Sheet Name" value={sheetName} onChange={(e) => onChangeSheet({ sheet: e?.target?.value })} />
-                        <input className={styles["file-input"]} placeholder="File Name" value={fileLink} onChange={(e) => onChangeFile({ file: e?.target?.value })} />
+                        <input className={styles["file-input"]} placeholder="Google Sheet Link" value={fileLink} onChange={(e) => onChangeFile({ file: e?.target?.value })} />
                         <div className={styles["submit-button"]} onClick={() => onSubmit()}>{loading ? "Loading..." : "Submit"}</div>
                     </div>
 
                 </div>
 
-                <div className="list-table">
+                <div className={styles["list-table"]}>
                     <Table
                         dataSource={finalData}
                         columns={tableColumns}
