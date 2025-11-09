@@ -7,31 +7,58 @@ import styles from "./styles.module.scss"
 import { excelToJson } from "../../helpers/excel-helper/json"
 
 const messageStructure = [
-    { group: "basic", fields: ["Contract Name", "Salary Payment Mode"] },
-    {
-        group: "orders", fields: [
-            "Total Pickup Orders (Talabat)",
-            "Total Dropoff Orders (Talabat)",
-            "Multiple Orders (Talabat)",
-            "Total Orders (Jahez)",
-            "Total Orders (Ninja)",
-            "Total Orders (IW Express)",
-            "Total Orders (Keeta)"
-        ]
-    },
-    {
-        group: "salary", fields: [
-            "Salary (Talabat)", "Salary (Jahez)", "Salary (Ninja)",
-            "Salary (IW-Express)", "Salary (Keeta)",
-            "Salary Rate Bonus", "Multiple Orders Bonus", "Two Years Bonus", "Probation Period Bonus", "Incentive"
-        ]
-    },
-    {
-        group: "summary", fields: [
-            "Gross Salary", "Total Deductions", "Net Salary"
-        ]
-    },
+  {
+    title: "Basic Info",
+    fields: [
+      "Driver ID",
+      "Driver Name",
+      "Contract Name"
+    ]
+  },
+  {
+    title: "Orders",
+    fields: [
+      "Total Pickup Orders (Talabat)",
+      "Total Dropoff Orders (Talabat)",
+      "Multiple Orders (Talabat)"
+    ]
+  },
+  {
+    title: "Earnings",
+    fields: [
+      "Per Order Amount",
+      "Bonus Orders",
+      "Salary (Talabat)",
+      "Salary Rate Bonus",
+      "Multiple Orders Bonus",
+      "Two Years Bonus",
+      "Probation Period Bonus",
+      "Incentive"
+    ]
+  },
+  {
+    title: "Deductions",
+    fields: [
+      "Deduction Payable",
+      "Petrol",
+      "Gross Salary",
+      "Sales Cash Penalty",
+      "DG Deduction",
+      "Batch Penalty",
+      "Salary Advance",
+      "Negative Salary Deduction",
+      "Bike Service Charges Deduction",
+      "Talabat MO Deduction",
+      "Talabat Deduction",
+      "Total Deductions"
+    ]
+  },
+  {
+    title: "Final",
+    fields: ["Net Salary"]
+  }
 ];
+
 
 export const formatSalaryAndOrders = (data) => {
     const salarySections = [
