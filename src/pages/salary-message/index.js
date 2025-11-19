@@ -59,7 +59,6 @@ const messageStructure = [
   }
 ];
 
-
 export const formatSalaryAndOrders = (data) => {
     const salarySections = [
         { label: "Salary (Talabat)", value: data.talabatSalary },

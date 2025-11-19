@@ -23,7 +23,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className={styles["page-main"]}>
-            <div className={styles["page-header"]}>Whatsapp Automation</div>
+            <div className={styles["page-header"]}>Bobyan Automation</div>
             <div className={styles["page-contents"]}>
 
             </div>
